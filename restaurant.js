@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+var tableArr = [];
+var reserveArr = [];
+
 // Routes
 // =============================================================
 
@@ -22,18 +25,13 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "home.html"));
 });
 
-app.get("/add", function(req, res) {
+app.get("/tables", function(req, res) {
   res.sendFile(path.join(__dirname, "tables.html"));
 });
 
-app.get("/add", function(req, res) {
+app.get("/reserve", function(req, res) {
   res.sendFile(path.join(__dirname, "reserve.html"));
 });
-
-
-
-
-
 
 
 // // Search for Specific Character (or all characters) - provides JSON
@@ -68,12 +66,6 @@ app.get("/add", function(req, res) {
 
 //   res.json(newcharacter);
 // });
-
-
-
-
-
-
 
 
 // Starts the server to begin listening
