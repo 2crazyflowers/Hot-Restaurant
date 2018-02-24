@@ -14,8 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-var tableArr = [];
-var reserveArr = [];
+var table = [];
+var waitlist = [];
 
 // Routes
 // =============================================================
@@ -33,39 +33,50 @@ app.get("/reserve", function(req, res) {
   res.sendFile(path.join(__dirname, "reserve.html"));
 });
 
+app.get("/api/tables", function(req, res) {
+ res.json(table);
+});
 
-// // Search for Specific Character (or all characters) - provides JSON
-// app.get("/api/:characters?", function(req, res) {
-//   var chosen = req.params.characters;
+app.get("/api/waitlist", function(req, res) {
+ res.json(waitList);
+});
 
-//   if (chosen) {
-//     console.log(chosen);
 
-//     for (var i = 0; i < characters.length; i++) {
-//       if (chosen === characters[i].routeName) {
-//         return res.json(characters[i]);
-//       }
-//     }
-//     return res.json(false);
-//   }
-//   return res.json(characters);
-// });
+// Search for Table Requests - provides JSON
+app.get("/api/:table?", function(req, res) {
+ var chosen = req.params.table;
 
-// // Create New Characters - takes in JSON input
-// app.post("/api/new", function(req, res) {
-//   // req.body hosts is equal to the JSON post sent from the user
-//   // This works because of our body-parser middleware
-//   var newcharacter = req.body;
-//   // Using a RegEx Pattern to remove spaces from newCharacter
-//   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-//   newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+ if (chosen) {
+   console.log(chosen);
 
-//   console.log(newcharacter);
+   for (var i = 0; i < table.length; i++) {
+     if (chosen === table[i].name) {
+       return res.json(name[i]);
+     }
+   }
+   return res.json(false);
+ }
+ return res.json(table);
+});
 
-//   characters.push(newcharacter);
+// Create New reservations - takes in JSON input
+app.post("/api/new", function(req, res) {
+  // req.body hosts is equal to the JSON post sent from the user
+  // This works because of our body-parser middleware
+  var newreservation = req.body;
+  newreservation.name = newreservation.name.replace(/\s+/g, "").toLowerCase();
 
-//   res.json(newcharacter);
-// });
+  console.log(newreservation);
+
+  if (table.length >= 5){
+    waitlist.push(newreservation);
+  }
+  else{
+    table.push(newreservation);
+  }
+  res.json(newreservation);
+});
+
 
 
 // Starts the server to begin listening
