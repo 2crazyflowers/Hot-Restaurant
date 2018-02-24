@@ -32,5 +32,24 @@
  </div>
 
 
+
+
 </body>
 </html>
+
+<script type="text/javascript">
+  function runTable () {
+     $.ajax({ url: currentURL + "/api/tables", method: "GET" })
+      .then(function(tableData) {
+        console.log("------------------------------------");
+        console.log("URL: " + currentURL + "/api/waitlist");
+        console.log("------------------------------------");
+
+      }
+  }
+
+  function runWaitingList () {
+
+  }
+  
+</script>
